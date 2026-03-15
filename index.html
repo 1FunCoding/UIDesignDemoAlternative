@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BORAT Social Study Widget</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="app-header">
+        <div class="app-logo">BORAT</div>
+        <nav class="top-nav">
+          <button class="nav-tab active" data-screen="home-screen">Home</button>
+          <button class="nav-tab" data-screen="calendar-screen">Calendar</button>
+          <button class="nav-tab" data-screen="quick-support-screen">Quick Support</button>
+        </nav>
+      </header>
+
+      <main class="app-main">
+
+        <!-- ══════════════ HOME SCREEN ══════════════ -->
+        <section id="home-screen" class="screen active-screen">
+          <div class="home-grid">
+
+            <!-- Hi Bob card -->
+            <div class="card card-large">
+              <div class="profile-header">
+                <div class="avatar-wrapper">
+                  <div class="avatar-circle">B</div>
+                  <span class="status-dot status-online" id="home-status-dot"></span>
+                </div>
+                <div class="profile-text">
+                  <h1 class="greeting">Hi Bob!</h1>
+                  <p class="subtle">Status: <span id="current-status-label">Online</span></p>
+                  <p class="subtle" id="home-activity-line">Not in activity</p>
+                </div>
+              </div>
+              <div class="card-actions vertical">
+                <button id="change-status-btn" class="btn pill neutral">Change Status</button>
+                <button class="btn pill outline" data-screen-target="profile-screen">View Profile</button>
+              </div>
+            </div>
+
+            <!-- Let's Talk card -->
+            <div class="card card-large">
+              <h2 class="card-title">Let's Talk!</h2>
+              <div class="card-actions vertical">
+                <button id="start-activity-btn" class="btn primary">Start Activity</button>
+                <button class="btn secondary" data-screen-target="poll-screen">Send Poll</button>
+                <button class="btn outline" data-screen-target="calendar-screen">View Calendar</button>
+              </div>
+            </div>
+
+            <!-- Connect card -->
+            <div class="card card-large">
+              <h2 class="card-title">Connect!</h2>
+              <ul class="friend-list">
+                <li class="friend friend-clickable" data-friend="jordan">
+                  <div class="friend-avatar friend-online">JD</div>
+                  <div class="friend-meta">
+                    <div class="friend-name">Jordan</div>
+                    <div class="friend-status online">Online</div>
+                  </div>
+                </li>
+                <li class="friend friend-clickable" data-friend="taylor">
+                  <div class="friend-avatar friend-away">TW</div>
+                  <div class="friend-meta">
+                    <div class="friend-name">Taylor</div>
+                    <div class="friend-status away">Away</div>
+                  </div>
+                </li>
+                <li class="friend friend-clickable" data-friend="morgan">
+                  <div class="friend-avatar friend-busy">MC</div>
+                  <div class="friend-meta">
+                    <div class="friend-name">Morgan</div>
+                    <div class="friend-status busy">Do Not Disturb</div>
+                  </div>
+                </li>
+                <li class="friend friend-clickable" data-friend="alex">
+                  <div class="friend-avatar friend-online">AJ</div>
+                  <div class="friend-meta">
+                    <div class="friend-name">Alex</div>
+                    <div class="friend-status online">Online</div>
+                  </div>
+                </li>
+                <li class="friend friend-clickable" data-friend="sarah">
+                  <div class="friend-avatar friend-offline">SM</div>
+                  <div class="friend-meta">
+                    <div class="friend-name">Sarah</div>
+                    <div class="friend-status offline">Away</div>
+                  </div>
+                </li>
+                <li class="friend add-friend">
+                  <button class="btn icon only">+</button>
+                  <span class="subtle">Add Friend</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══════════════ FRIEND PROFILE SCREEN ══════════════ -->
+        <section id="friend-profile-screen" class="screen">
+          <div class="toolbar">
+            <button class="icon-button" data-screen-target="home-screen" aria-label="Back">←</button>
+            <h2 class="toolbar-title" id="friend-profile-title">Friend Profile</h2>
+          </div>
+          <div class="card card-wide">
+            <div class="profile-header">
+              <div class="avatar-wrapper">
+                <div class="avatar-circle" id="fp-avatar">J</div>
+                <span class="status-dot" id="fp-status-dot"></span>
+              </div>
+              <div class="profile-text">
+                <div class="profile-name" id="fp-name">Jordan</div>
+                <p class="subtle">Status: <span id="fp-status-label">Online</span></p>
+                <p class="subtle">Recent Activity: <span id="fp-activity">—</span></p>
+              </div>
+            </div>
+            <div class="profile-grid">
+              <div class="field-block">
+                <label class="field-label">Phone</label>
+                <div class="field-value" id="fp-phone">—</div>
+              </div>
+              <div class="field-block">
+                <label class="field-label">Bio</label>
+                <div class="field-value" id="fp-bio">—</div>
+              </div>
+            </div>
+
+            <!-- Status hint banner -->
+            <div class="status-hint-banner" id="fp-hint-banner">
+              <span id="fp-hint-text"></span>
+            </div>
+
+            <div class="card-actions stretch" style="margin-top:16px;">
+              <button class="btn neutral" id="fp-call-btn">📞 Call</button>
+              <button class="btn secondary" id="fp-message-btn">💬 Message</button>
+              <button class="btn primary" id="fp-event-btn" data-screen-target="calendar-screen">📅 Add Event</button>
+            </div>
+            <div class="quick-result subtle" id="fp-action-result" style="margin-top:10px;"></div>
+            <div style="margin-top:12px; border-top:1px solid var(--border-soft); padding-top:12px;">
+              <button class="btn outline wide" id="fp-quick-support-btn">Open Quick Decision Support →</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══════════════ PROFILE SCREEN ══════════════ -->
+        <section id="profile-screen" class="screen">
+          <div class="toolbar">
+            <button class="icon-button" data-screen-target="home-screen" aria-label="Back to home">←</button>
+            <h2 class="toolbar-title">Profile: Bob Smith</h2>
+          </div>
+          <div class="card card-wide">
+            <div class="profile-header">
+              <div class="avatar-wrapper">
+                <div class="avatar-circle">B</div>
+                <span class="status-dot status-online" id="profile-status-dot"></span>
+              </div>
+              <div class="profile-text">
+                <div class="profile-name">Bob Smith</div>
+                <p class="subtle">Status: <span id="profile-status-label">Online</span></p>
+                <p class="subtle" id="profile-activity-line">Not in activity</p>
+              </div>
+            </div>
+            <div class="profile-grid">
+              <div class="field-block">
+                <label class="field-label">Phone Number</label>
+                <input id="profile-phone" class="field-input" type="tel" value="(408) 555-0199" />
+              </div>
+              <div class="field-block">
+                <label class="field-label">Recent Activity</label>
+                <div class="field-value" id="recent-activity">Study Session</div>
+              </div>
+              <div class="field-block full-width">
+                <label class="field-label">Bio</label>
+                <textarea id="profile-bio" class="field-input" rows="2" placeholder="Write something about yourself…">CS + HCI double major. Love coffee and hackathons.</textarea>
+              </div>
+              <div class="field-block full-width">
+                <label class="field-label">Photo Album</label>
+                <div class="photo-grid">
+                  <div class="photo-slot"></div>
+                  <div class="photo-slot"></div>
+                  <div class="photo-slot"></div>
+                  <div class="photo-slot"></div>
+                  <button class="photo-add" id="photo-add-btn" title="Open Camera">📷</button>
+                </div>
+                <p class="subtle" id="photo-camera-hint" style="margin-top:4px; display:none;">Camera integration active — tap to capture.</p>
+              </div>
+            </div>
+            <div class="card-actions stretch">
+              <button class="btn neutral" id="change-status-btn-profile">⚙ Change Status</button>
+              <button class="btn secondary">Sync Contacts</button>
+              <button class="btn primary" data-screen-target="calendar-screen">Add Event</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══════════════ CALENDAR + ADD ACTIVITY ══════════════ -->
+        <section id="calendar-screen" class="screen">
+          <div class="toolbar">
+            <button class="icon-button" data-screen-target="home-screen" aria-label="Back to home">←</button>
+            <h2 class="toolbar-title">Calendar</h2>
+          </div>
+          <div class="calendar-layout">
+            <div class="card calendar-card">
+              <div class="calendar-header">
+                <button class="icon-button cal-nav" id="cal-prev">‹</button>
+                <span id="cal-day-label">Sunday, Feb 1st</span>
+                <button class="icon-button cal-nav" id="cal-next">›</button>
+              </div>
+              <ul id="event-list" class="event-list">
+                <!-- seeded events rendered by JS -->
+              </ul>
+              <div class="card-actions right">
+                <button class="btn primary" id="add-activity-scroll">+ Add Activity</button>
+              </div>
+            </div>
+
+            <div class="card add-activity-card" id="add-activity-card">
+              <div class="toolbar compact">
+                <h3 class="toolbar-title">Add Activity</h3>
+              </div>
+              <form id="add-activity-form" class="form-grid">
+                <div class="field-block">
+                  <label class="field-label" for="activity-title">Title</label>
+                  <input id="activity-title" class="field-input" type="text" placeholder="Enter activity title" required />
+                </div>
+                <div class="field-block">
+                  <label class="field-label" for="activity-desc">Description</label>
+                  <textarea id="activity-desc" class="field-input" placeholder="Add a description" rows="2"></textarea>
+                </div>
+                <div class="field-block two-col">
+                  <div>
+                    <label class="field-label" for="activity-start">Start Time</label>
+                    <input id="activity-start" class="field-input" type="time" required />
+                  </div>
+                  <div>
+                    <label class="field-label" for="activity-end">End Time</label>
+                    <input id="activity-end" class="field-input" type="time" required />
+                  </div>
+                </div>
+
+                <div class="field-block">
+                  <label class="field-label">Quick Add Friends</label>
+                  <div class="quick-add-section">
+                    <p class="subtle" style="font-size:11px; margin:0 0 6px;">Sorted by: online first, then frequency</p>
+                    <div class="quick-add-row" id="quick-add-friends-row">
+                      <button type="button" class="chip chip-online friend-chip" data-friend="Jordan" title="Online · Frequent">
+                        <span class="chip-avatar">JD</span> Jordan
+                      </button>
+                      <button type="button" class="chip chip-online friend-chip" data-friend="Alex" title="Online · Occasional">
+                        <span class="chip-avatar">AJ</span> Alex
+                      </button>
+                      <button type="button" class="chip chip-away friend-chip" data-friend="Taylor" title="Away">
+                        <span class="chip-avatar">TW</span> Taylor
+                      </button>
+                      <button type="button" class="chip chip-busy friend-chip" data-friend="Morgan" title="Do Not Disturb">
+                        <span class="chip-avatar">MC</span> Morgan
+                      </button>
+                      <button type="button" class="chip chip-offline friend-chip" data-friend="Sarah" title="Away">
+                        <span class="chip-avatar">SM</span> Sarah
+                      </button>
+                    </div>
+                  </div>
+                  <input type="hidden" id="activity-friends" value="" />
+                </div>
+
+                <div class="form-actions">
+                  <button type="submit" class="btn primary wide">Save Activity</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══════════════ QUICK DECISION SUPPORT ══════════════ -->
+        <section id="quick-support-screen" class="screen">
+          <div class="toolbar">
+            <h2 class="toolbar-title">Quick Decision Support</h2>
+          </div>
+          <div class="card card-wide">
+            <div class="profile-header">
+              <div class="avatar-wrapper">
+                <div class="avatar-circle" id="qs-avatar">J</div>
+                <span class="status-dot status-busy" id="qs-status-dot"></span>
+              </div>
+              <div class="profile-text">
+                <div class="profile-name" id="qs-name">John Doe</div>
+                <p class="subtle">Status: <span id="qs-status-label">Do Not Disturb</span></p>
+                <p class="subtle">Recent Activity: <span id="qs-activity">CSEN 79 Study Sesh</span></p>
+              </div>
+            </div>
+
+            <div class="status-hint-banner" id="qs-hint-banner">
+              <span id="qs-hint-text">John is busy — consider scheduling time instead.</span>
+            </div>
+
+            <div class="field-block" style="margin-top:14px;">
+              <label class="field-label">What should you do?</label>
+              <p class="subtle">Use your friend's status and recent activity to decide.</p>
+            </div>
+            <div class="card-actions stretch" style="margin-top:12px;">
+              <button class="btn neutral" id="quick-message-btn">💬 Message Now</button>
+              <button class="btn secondary" id="quick-call-btn">📞 Call Now</button>
+              <button class="btn primary" id="qs-add-event-btn" data-screen-target="calendar-screen">📅 Add Event Instead</button>
+            </div>
+            <div class="quick-result subtle" id="quick-result"></div>
+
+            <div style="margin-top: 16px; border-top: 1px solid var(--border-soft); padding-top: 14px;">
+              <div class="field-block">
+                <label class="field-label">Your Status</label>
+                <p class="subtle" style="margin-bottom:8px;">Let friends know when it's a good time to reach out.</p>
+                <button class="btn outline" id="qs-change-status-btn">Change My Status → <span id="qs-my-status">Online</span></button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══════════════ POLL SCREEN ══════════════ -->
+        <section id="poll-screen" class="screen">
+          <div class="toolbar">
+            <button class="icon-button" data-screen-target="home-screen" aria-label="Back">←</button>
+            <h2 class="toolbar-title">Send Poll</h2>
+          </div>
+          <div class="card card-wide">
+            <form id="poll-form" class="form-grid">
+              <div class="field-block">
+                <label class="field-label" for="poll-question">Question</label>
+                <input id="poll-question" class="field-input" type="text" placeholder="e.g. Want to study tonight?" required />
+              </div>
+              <div class="field-block">
+                <label class="field-label">Options</label>
+                <div id="poll-options-container" class="poll-options-container">
+                  <input class="field-input poll-option-input" type="text" placeholder="Option 1 (e.g. Yes, I'm free!)" />
+                  <input class="field-input poll-option-input" type="text" placeholder="Option 2 (e.g. Maybe later)" />
+                </div>
+                <button type="button" class="btn outline" id="add-poll-option-btn" style="margin-top:6px;">+ Add Option</button>
+              </div>
+              <div class="field-block">
+                <label class="field-label">Send To</label>
+                <div class="quick-add-row" id="poll-friends-row">
+                  <button type="button" class="chip chip-online friend-chip" data-friend="Jordan">
+                    <span class="chip-avatar">JD</span> Jordan
+                  </button>
+                  <button type="button" class="chip chip-online friend-chip" data-friend="Alex">
+                    <span class="chip-avatar">AJ</span> Alex
+                  </button>
+                  <button type="button" class="chip chip-away friend-chip" data-friend="Taylor">
+                    <span class="chip-avatar">TW</span> Taylor
+                  </button>
+                  <button type="button" class="chip chip-busy friend-chip" data-friend="Morgan">
+                    <span class="chip-avatar">MC</span> Morgan
+                  </button>
+                  <button type="button" class="chip chip-offline friend-chip" data-friend="Sarah">
+                    <span class="chip-avatar">SM</span> Sarah
+                  </button>
+                </div>
+              </div>
+              <div class="card-actions stretch">
+                <button type="button" class="btn neutral" data-screen-target="home-screen">Cancel</button>
+                <button type="submit" class="btn primary">Send Poll</button>
+              </div>
+              <div class="quick-result subtle" id="poll-result"></div>
+            </form>
+          </div>
+        </section>
+
+        <!-- ══════════════ SESSION FLOW OVERLAY ══════════════ -->
+        <section id="session-overlay" class="overlay hidden">
+          <div class="overlay-content">
+
+            <!-- 1. Start Activity -->
+            <div id="start-activity-screen" class="overlay-screen active">
+              <h2 class="overlay-title">Start Activity</h2>
+              <div class="card-grid">
+                <button class="activity-card" data-activity-type="Study Session">
+                  <div class="activity-icon">📚</div>
+                  <span>Study Session</span>
+                </button>
+                <button class="activity-card" data-activity-type="Gaming">
+                  <div class="activity-icon">🎮</div>
+                  <span>Gaming</span>
+                </button>
+                <button class="activity-card" data-activity-type="Chilling">
+                  <div class="activity-icon">☕</div>
+                  <span>Chilling</span>
+                </button>
+              </div>
+              <div style="text-align:center; margin-top:16px;">
+                <button class="btn neutral" id="cancel-start-activity-btn">Cancel</button>
+              </div>
+            </div>
+
+            <!-- 2. Start Session config -->
+            <div id="start-session-screen" class="overlay-screen">
+              <h2 class="overlay-title" id="start-session-title">Start Study Session</h2>
+              <div class="card card-wide">
+                <div class="field-block">
+                  <label class="field-label">Goal Length</label>
+                  <div class="goal-row">
+                    <button class="chip goal-chip" data-minutes="25">25 min</button>
+                    <button class="chip goal-chip active" data-minutes="60">1 hr</button>
+                    <button class="chip goal-chip" data-minutes="90">1.5 hr</button>
+                  </div>
+                </div>
+                <div class="field-block">
+                  <label class="field-label">Session Type</label>
+                  <div class="goal-row">
+                    <button class="chip type-chip active" data-type="Open">Open</button>
+                    <button class="chip type-chip" data-type="Friends Only">Friends Only</button>
+                    <button class="chip type-chip" data-type="Solo">Solo</button>
+                  </div>
+                </div>
+                <div class="field-block">
+                  <label class="field-label">Your Subject</label>
+                  <div class="goal-row">
+                    <button class="chip subject-chip active" data-subject="History">History</button>
+                    <button class="chip subject-chip" data-subject="Math">Math</button>
+                    <button class="chip subject-chip" data-subject="CS">CS</button>
+                    <button class="chip subject-chip" data-subject="Writing">Writing</button>
+                    <button class="chip subject-chip" data-subject="Other">Other</button>
+                  </div>
+                </div>
+                <div class="field-block">
+                  <label class="field-label">Invite Friends</label>
+                  <p class="subtle" style="font-size:11px; margin:0 0 6px;">Sorted by availability — avoid inviting those with Do Not Disturb</p>
+                  <div class="quick-add-row">
+                    <button type="button" class="chip chip-online invite-chip active" data-friend="Max" data-status="online" title="Active">
+                      <span class="chip-avatar">MX</span> Max
+                    </button>
+                    <button type="button" class="chip chip-online invite-chip active" data-friend="Emily" data-status="online" title="Active">
+                      <span class="chip-avatar">EM</span> Emily
+                    </button>
+                    <button type="button" class="chip chip-busy invite-chip" data-friend="Chris" data-status="busy" title="Do Not Disturb">
+                      <span class="chip-avatar">CH</span> Chris
+                    </button>
+                  </div>
+                </div>
+                <div class="card-actions stretch">
+                  <button class="btn neutral" id="cancel-session-flow-btn">Cancel</button>
+                  <button class="btn primary" id="begin-session-btn">Start Session</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- 3. Active Study Session -->
+            <div id="study-session-screen" class="overlay-screen">
+              <h2 class="overlay-title" id="session-type-label">Study Session</h2>
+              <div class="card card-wide session-card">
+                <div class="timer-readout">
+                  <div id="session-elapsed">00:00</div>
+                  <div class="timer-sub">Goal: <span id="session-goal-label">1:00:00</span></div>
+                </div>
+
+                <div class="participants-section">
+                  <div class="participants-label">Participants</div>
+                  <div class="participant-row" id="participant-row">
+                    <!-- Filled dynamically -->
+                  </div>
+                </div>
+
+                <div class="emote-section">
+                  <div class="emote-label">Send Quick Emote</div>
+                  <div class="emote-row">
+                    <button class="emote-btn" data-emote="🔥" title="Fire!">🔥</button>
+                    <button class="emote-btn" data-emote="💪" title="Keep going!">💪</button>
+                    <button class="emote-btn" data-emote="👍" title="Nice work!">👍</button>
+                    <button class="emote-btn" data-emote="❤️" title="You got this!">❤️</button>
+                    <button class="emote-btn" data-emote="☕" title="Coffee break?">☕</button>
+                  </div>
+                  <div class="emote-result subtle" id="emote-result"></div>
+                </div>
+
+                <div class="card-actions stretch">
+                  <button class="btn outline" id="invite-more-btn">+ Invite</button>
+                  <button class="btn secondary" id="take-break-btn">Take Break</button>
+                  <button class="btn primary" id="end-session-btn">End Session</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- 4. Break Screen -->
+            <div id="break-screen" class="overlay-screen">
+              <h2 class="overlay-title">Take a Break ☕</h2>
+              <div class="card card-wide session-card">
+                <div class="timer-readout">
+                  <div id="break-remaining">05:00</div>
+                  <div class="timer-sub">Break Timer</div>
+                </div>
+                <p class="subtle">Break length:</p>
+                <div class="goal-row" style="justify-content:center; margin-bottom:16px;">
+                  <button class="chip break-len-chip active" data-secs="300">5 min</button>
+                  <button class="chip break-len-chip" data-secs="600">10 min</button>
+                  <button class="chip break-len-chip" data-secs="900">15 min</button>
+                </div>
+                <div class="card-actions stretch">
+                  <button class="btn secondary" id="skip-break-btn">Skip Break</button>
+                  <button class="btn primary" id="resume-session-btn">Resume Session</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- 5. Invite More Friends -->
+            <div id="invite-more-screen" class="overlay-screen">
+              <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
+                <h2 class="overlay-title" style="margin:0;">Invite Friends</h2>
+                <button class="icon-button" id="close-invite-more-btn">✕</button>
+              </div>
+              <div class="card card-wide">
+                <p class="subtle" style="margin:0 0 10px;">Friends sorted by availability. Do Not Disturb friends shown last.</p>
+                <div class="invite-friend-list" id="invite-more-list">
+                  <div class="invite-friend-item" data-friend="Max">
+                    <div class="friend-avatar friend-online">MX</div>
+                    <div class="friend-meta">
+                      <div class="friend-name">Max</div>
+                      <div class="friend-status online">Active</div>
+                    </div>
+                    <div class="invite-check" data-friend="Max">✓</div>
+                  </div>
+                  <div class="invite-friend-item" data-friend="Emily">
+                    <div class="friend-avatar friend-online">EM</div>
+                    <div class="friend-meta">
+                      <div class="friend-name">Emily</div>
+                      <div class="friend-status online">Active</div>
+                    </div>
+                    <div class="invite-check" data-friend="Emily">✓</div>
+                  </div>
+                  <div class="invite-friend-item" data-friend="Jordan">
+                    <div class="friend-avatar friend-online">JD</div>
+                    <div class="friend-meta">
+                      <div class="friend-name">Jordan</div>
+                      <div class="friend-status online">Online</div>
+                    </div>
+                    <div class="invite-check" data-friend="Jordan">✓</div>
+                  </div>
+                  <div class="invite-friend-item" data-friend="Taylor">
+                    <div class="friend-avatar friend-away">TW</div>
+                    <div class="friend-meta">
+                      <div class="friend-name">Taylor</div>
+                      <div class="friend-status away">Away</div>
+                    </div>
+                    <div class="invite-check" data-friend="Taylor">✓</div>
+                  </div>
+                  <div class="invite-friend-item" data-friend="Chris">
+                    <div class="friend-avatar friend-busy">CH</div>
+                    <div class="friend-meta">
+                      <div class="friend-name">Chris</div>
+                      <div class="friend-status busy">Do Not Disturb</div>
+                    </div>
+                    <div class="invite-check" data-friend="Chris">✓</div>
+                  </div>
+                </div>
+                <div class="card-actions stretch" style="margin-top:12px;">
+                  <button class="btn neutral" id="cancel-invite-more-btn">Cancel</button>
+                  <button class="btn primary" id="confirm-invite-more-btn">Invite Selected</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- 6. End Session Confirm -->
+            <div id="end-confirm-screen" class="overlay-screen">
+              <h2 class="overlay-title">End Session?</h2>
+              <div class="card card-wide session-card">
+                <p class="subtle">Are you sure you want to end the session?</p>
+                <div class="timer-readout" style="margin:14px 0;">
+                  <div id="end-confirm-elapsed" style="font-size:28px; font-weight:600;">00:00</div>
+                  <div class="timer-sub">elapsed so far</div>
+                </div>
+                <div class="card-actions stretch">
+                  <button class="btn neutral" id="cancel-end-btn">Keep Going</button>
+                  <button class="btn primary" id="confirm-end-btn">End Session</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- 7. Session Complete -->
+            <div id="session-complete-screen" class="overlay-screen">
+              <h2 class="overlay-title">Session Complete! 🎉</h2>
+              <div class="card card-wide session-card">
+                <div class="timer-readout">
+                  <div id="session-total-label" style="font-size:32px; font-weight:600;">00:00</div>
+                  <div class="timer-sub">of <span id="session-goal-summary">1:00:00</span> goal</div>
+                </div>
+                <p class="subtle" id="session-complete-msg" style="margin:12px 0;">
+                  Wish your study partners good luck!
+                </p>
+                <div class="card-actions stretch">
+                  <button class="btn secondary" id="send-encouragement-btn">Send Encouragement</button>
+                  <button class="btn primary" id="close-session-flow-btn">Done</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- 8. Send Encouragement -->
+            <div id="send-encouragement-screen" class="overlay-screen">
+              <h2 class="overlay-title">Send Encouragement 💌</h2>
+              <div class="card card-wide">
+                <div class="field-block">
+                  <label class="field-label">To</label>
+                  <div class="quick-add-row" id="encouragement-recipients"></div>
+                </div>
+                <div class="field-block">
+                  <label class="field-label">Quick Messages</label>
+                  <div class="quick-add-row">
+                    <button type="button" class="chip" data-message="You got this!">You got this!</button>
+                    <button type="button" class="chip" data-message="Almost there!">Almost there!</button>
+                    <button type="button" class="chip" data-message="Proud of you!">Proud of you!</button>
+                    <button type="button" class="chip" data-message="Keep grinding! 💪">Keep grinding! 💪</button>
+                  </div>
+                </div>
+                <div class="field-block">
+                  <textarea id="encouragement-custom" class="field-input" rows="2" placeholder="Or type your own message"></textarea>
+                </div>
+                <div class="card-actions stretch">
+                  <button class="btn neutral" id="cancel-encouragement-btn">Cancel</button>
+                  <button class="btn primary" id="send-encouragement-final-btn">Send</button>
+                </div>
+                <div id="encouragement-result" class="quick-result subtle"></div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ══════════════ STATUS MODAL ══════════════ -->
+        <div id="status-modal" class="modal hidden" role="dialog">
+          <div class="modal-content card">
+            <div class="toolbar compact">
+              <h3 class="toolbar-title">Set Your Status</h3>
+              <button class="icon-button" id="close-status-modal" aria-label="Close">✕</button>
+            </div>
+            <ul class="status-list">
+              <li>
+                <button class="status-option" data-status="Online" data-dot="status-online">
+                  <span class="status-option-dot status-online"></span>
+                  <div>
+                    <div class="status-option-name">Online</div>
+                    <div class="status-option-desc">Free to chat and join activities</div>
+                  </div>
+                </button>
+              </li>
+              <li>
+                <button class="status-option" data-status="Free — down to talk!" data-dot="status-online">
+                  <span class="status-option-dot status-online"></span>
+                  <div>
+                    <div class="status-option-name">Free — down to talk!</div>
+                    <div class="status-option-desc">Actively looking to connect</div>
+                  </div>
+                </button>
+              </li>
+              <li>
+                <button class="status-option" data-status="In Activity" data-dot="status-activity">
+                  <span class="status-option-dot status-activity"></span>
+                  <div>
+                    <div class="status-option-name">In Activity</div>
+                    <div class="status-option-desc">In a session, may respond slowly</div>
+                  </div>
+                </button>
+              </li>
+              <li>
+                <button class="status-option" data-status="Studying" data-dot="status-study">
+                  <span class="status-option-dot status-study"></span>
+                  <div>
+                    <div class="status-option-name">Studying</div>
+                    <div class="status-option-desc">Heads down — short messages okay</div>
+                  </div>
+                </button>
+              </li>
+              <li>
+                <button class="status-option" data-status="Away" data-dot="status-away">
+                  <span class="status-option-dot status-away"></span>
+                  <div>
+                    <div class="status-option-name">Away</div>
+                    <div class="status-option-desc">Stepped away, will be back soon</div>
+                  </div>
+                </button>
+              </li>
+              <li>
+                <button class="status-option" data-status="Do Not Disturb" data-dot="status-busy">
+                  <span class="status-option-dot status-busy"></span>
+                  <div>
+                    <div class="status-option-name">Do Not Disturb</div>
+                    <div class="status-option-desc">Please don't contact me right now</div>
+                  </div>
+                </button>
+              </li>
+              <li>
+                <button class="status-option" data-status="Offline" data-dot="status-offline">
+                  <span class="status-option-dot status-offline"></span>
+                  <div>
+                    <div class="status-option-name">Offline</div>
+                    <div class="status-option-desc">Appear offline to everyone</div>
+                  </div>
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+      </main>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
